@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ResellH – Cart</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin:0;
+      padding:0;
+      background: linear-gradient(135deg, #dbeafe, #f3e8ff);
+    }
+    header {
+      background:#111827;
+      color:#fff;
+      padding:15px 20px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+    header h1 { margin:0; font-size:1.4rem; }
+    header .brand-sub { font-size:0.8rem; color:#9ca3af; }
+
+    nav a {
+      margin:0 10px;
+      text-decoration:none;
+      color:#e5e7eb;
+      font-weight:bold;
+      font-size:0.9rem;
+    }
+    nav a:hover { text-decoration:underline; }
+
+    .cart-link {
+      position:relative;
+      text-decoration:none;
+      color:#e5e7eb;
+      font-weight:bold;
+      margin-left:15px;
+    }
+    .cart-count {
+      position:absolute;
+      top:-6px;
+      right:-10px;
+      background:#ef4444;
+      color:#fff;
+      border-radius:999px;
+      padding:2px 6px;
+      font-size:0.7rem;
+    }
+
+    main {
+      max-width:900px;
+      margin:30px auto;
+      padding:25px;
+      background:#ffffffcc;
+      border-radius:12px;
+      backdrop-filter: blur(6px);
+    }
+
+    .cart-item {
+      display:flex;
+      gap:15px;
+      margin-bottom:15px;
+      padding-bottom:15px;
+      border-bottom:1px solid #e5e7eb;
+      align-items:center;
+    }
+    .cart-item img {
+      width:80px;
+      height:80px;
+      object-fit:cover;
+      border-radius:8px;
+    }
+    .cart-info {
+      flex:1;
+    }
+    .cart-name { font-weight:bold; margin-bottom:4px; }
+    .cart-price { color:#16a34a; margin-bottom:4px; }
+
+    .qty-controls {
+      display:flex;
+      align-items:center;
+      gap:5px;
+    }
+    .qty-controls button {
+      width:24px;
+      height:24px;
+      border:none;
+      border-radius:4px;
+      background:#e5e7eb;
+      cursor:pointer;
+      font-weight:bold;
+    }
+    .qty-controls span {
+      min-width:20px;
+      text-align:center;
+    }
+
+    .remove-btn {
+      border:none;
+      background:#ef4444;
+      color:#fff;
+      padding:4px 8px;
+      border-radius:4px;
+      cursor:pointer;
+      font-size:0.8rem;
+    }
+
+    .cart-summary {
+      margin-top:20px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      font-size:1.05rem;
+      font-weight:bold;
+    }
+    .clear-btn {
+      border:none;
+      background:#6b7280;
+      color:#fff;
+      padding:6px 10px;
+      border-radius:6px;
+      cursor:pointer;
+      font-size:0.9rem;
+    }
+    .clear-btn:hover { background:#4b5563; }
+
+    .empty {
+      text-align:center;
+      color:#6b7280;
+      margin-top:20px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div>
+    <h1>ResellH</h1>
+    <div class="brand-sub">Temu Best Finds, Resold Locally</div>
+  </div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="items.html">Items</a>
+    <a href="cart.html" class="cart-link">
+      Cart <span id="cartCount" class="cart-count">0</span>
+    </a>
+  </nav>
+</header>
+
+<main>
+  <h2>Your Cart</h2>
+  <div id="cartContainer"></div>
+  <div id="cartSummary" class="cart-summary" style="display:none;">
+    <div>Total:</div>
+    <div id="cartTotal">0 dhs</div>
+    <button class="clear-btn" id="clearCart">Clear Cart</button>
+  </div>
+  <div id="emptyMsg" class="empty" style="display:none;">
+    Your cart is empty. <a href="items.html">Browse items</a>.
+  </div>
+</main>
+
+<script>
+  function getCart() {
+    return JSON.parse(localStorage.getItem("cart") || "[]");
+  }
+  function saveCart(cart) {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }
+  function updateCartCount() {
+    const cart = getCart();
+    const count = cart.reduce((sum, item) => sum + item.qty, 0);
+    const el = document.getElementById("cartCount");
+    if (el) el.textContent = count;
+  }
+
+  function renderCart() {
+    const cart = getCart();
+    const container = document.getElementById("cartContainer");
+    const summary = document.getElementById("cartSummary");
+    const emptyMsg = document.getElementById("emptyMsg");
+    const totalEl = document.getElementById("cartTotal");
+
+    container.innerHTML = "";
+
+    if (cart.length === 0) {
+      summary.style.display = "none";
+      emptyMsg.style.display = "block";
+      return;
+    }
+
+    emptyMsg.style.display = "none";
+    summary.style.display = "flex";
+
+    let total = 0;
+
+    cart.forEach((item, index) => {
+      const row = document.createElement("div");
+      row.className = "cart-item";
+
+      const img = document.createElement("img");
+      img.src = item.img;
+      img.alt = item.name;
+
+      const info = document.createElement("div");
+      info.className = "cart-info";
+
+      const name = document.createElement("div");
+      name.className = "cart-name";
+      name.textContent = item.name;
+
+      const price = document.createElement("div");
+      price.className = "cart-price";
+      price.textContent = item.price + " dhs";
+
+      const lineTotal = document.createElement("div");
+      lineTotal.textContent = "Subtotal: " + (item.price * item.qty).toFixed(2) + " dhs";
+
+      info.appendChild(name);
+      info.appendChild(price);
+      info.appendChild(lineTotal);
+
+      const controls = document.createElement("div");
+      controls.className = "qty-controls";
+
+      const minus = document.createElement("button");
+      minus.textContent = "-";
+      minus.onclick = () => {
+        if (item.qty > 1) {
+          item.qty -= 1;
+        } else {
+          cart.splice(index, 1);
+        }
+        saveCart(cart);
+        updateCartCount();
+        renderCart();
+      };
+
+      const qty = document.createElement("span");
+      qty.textContent = item.qty;
+
+      const plus = document.createElement("button");
+      plus.textContent = "+";
+      plus.onclick = () => {
+        item.qty += 1;
+        saveCart(cart);
+        updateCartCount();
+        renderCart();
+      };
+
+      const remove = document.createElement("button");
+      remove.className = "remove-btn";
+      remove.textContent = "Remove";
+      remove.onclick = () => {
+        cart.splice(index, 1);
+        saveCart(cart);
+        updateCartCount();
+        renderCart();
+      };
+
+      controls.appendChild(minus);
+      controls.appendChild(qty);
+      controls.appendChild(plus);
+      controls.appendChild(remove);
+
+      row.appendChild(img);
+      row.appendChild(info);
+      row.appendChild(controls);
+
+      container.appendChild(row);
+
+      total += item.price * item.qty;
+    });
+
+    totalEl.textContent = total.toFixed(2) + " dhs";
+  }
+
+  document.getElementById("clearCart").addEventListener("click", () => {
+    localStorage.removeItem("cart");
+    updateCartCount();
+    renderCart();
+  });
+
+  updateCartCount();
+  renderCart();
+</script>
+
+</body>
+</html>
