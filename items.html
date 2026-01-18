@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ResellH – Items for Sale</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin:0;
+      padding:0;
+      background: linear-gradient(135deg, #dbeafe, #f3e8ff);
+    }
+    header {
+      background:#111827;
+      color:#fff;
+      padding:15px 20px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+    header h1 { margin:0; font-size:1.4rem; }
+    header .brand-sub { font-size:0.8rem; color:#9ca3af; }
+
+    nav a {
+      margin:0 10px;
+      text-decoration:none;
+      color:#e5e7eb;
+      font-weight:bold;
+      font-size:0.9rem;
+    }
+    nav a:hover { text-decoration:underline; }
+
+    .cart-link {
+      position:relative;
+      text-decoration:none;
+      color:#e5e7eb;
+      font-weight:bold;
+      margin-left:15px;
+    }
+    .cart-count {
+      position:absolute;
+      top:-6px;
+      right:-10px;
+      background:#ef4444;
+      color:#fff;
+      border-radius:999px;
+      padding:2px 6px;
+      font-size:0.7rem;
+    }
+
+    main {
+      max-width:1000px;
+      margin:30px auto;
+      padding:25px;
+      background:#ffffffcc;
+      border-radius:12px;
+      backdrop-filter: blur(6px);
+    }
+
+    #searchBar {
+      width:100%;
+      padding:10px;
+      font-size:1rem;
+      margin-bottom:20px;
+      border-radius:6px;
+      border:1px solid #ccc;
+    }
+
+    .grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+      gap:20px;
+    }
+    .card {
+      background:#f9fafb;
+      border-radius:10px;
+      padding:12px;
+      box-shadow:0 2px 6px rgba(0,0,0,0.1);
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+    .card img {
+      width:100%;
+      height:150px;
+      object-fit:cover;
+      border-radius:8px;
+    }
+    .card h3 { margin:10px 0 6px; font-size:1.05rem; }
+    .price { font-weight:bold; color:#16a34a; margin-bottom:8px; }
+    .add-btn {
+      margin-top:8px;
+      padding:8px 10px;
+      background:#2563eb;
+      color:#fff;
+      border:none;
+      border-radius:6px;
+      cursor:pointer;
+      font-size:0.9rem;
+    }
+    .add-btn:hover { background:#1d4ed8; }
+
+    #toast {
+      position:fixed;
+      bottom:20px;
+      right:20px;
+      background:#16a34a;
+      color:#fff;
+      padding:10px 16px;
+      border-radius:8px;
+      box-shadow:0 2px 8px rgba(0,0,0,0.2);
+      opacity:0;
+      transform:translateY(10px);
+      transition:opacity 0.2s ease, transform 0.2s ease;
+      font-size:0.9rem;
+      z-index:50;
+    }
+    #toast.show {
+      opacity:1;
+      transform:translateY(0);
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div>
+    <h1>ResellH</h1>
+    <div class="brand-sub">Temu Best Finds, Resold Locally</div>
+  </div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="items.html">Items</a>
+    <a href="cart.html" class="cart-link">
+      Cart <span id="cartCount" class="cart-count">0</span>
+    </a>
+  </nav>
+</header>
+
+<main>
+  <h2>Available Products</h2>
+
+  <input type="text" id="searchBar" placeholder="Search items...">
+
+  <div class="grid">
+
+    <div class="card" data-id="1" data-name="Gear Shifter Key Chain" data-price="5" data-img="https://m.media-amazon.com/images/I/61B5pZIcnqL._AC_SL1500_.jpg">
+      <img src="https://m.media-amazon.com/images/I/61B5pZIcnqL._AC_SL1500_.jpg" alt="Gear Shifter Key Chain">
+      <h3>Gear Shifter Key Chain</h3>
+      <p class="price">5 dhs</p>
+      <p>Mini gear shifter key chain—fun fidget and car lover accessory.</p>
+      <button class="add-btn">Add to Cart</button>
+    </div>
+
+    <div class="card" data-id="2" data-name="Water Gun (Small)" data-price="8" data-img="https://tse4.mm.bing.net/th/id/OIP.87hN590p7VJ5JL3wUJE9hQHaHa?rs=1&pid=ImgDetMain&o=7&rm=3">
+      <img src="https://tse4.mm.bing.net/th/id/OIP.87hN590p7VJ5JL3wUJE9hQHaHa?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Water Gun Small">
+      <h3>Water Gun (Small)</h3>
+      <p class="price">8 dhs</p>
+      <p>Compact water gun for quick fun.</p>
+      <button class="add-btn">Add to Cart</button>
+    </div>
+
+    <div class="card" data-id="3" data-name="Mini Fan for PC / Mobile" data-price="10" data-img="https://tse1.mm.bing.net/th/id/OIP.yQXXrGWYpD6dtlJwUhidgAHaHa?rs=1&pid=ImgDetMain&o=7&rm=3">
+      <img src="https://tse1.mm.bing.net/th/id/OIP.yQXXrGWYpD6dtlJwUhidgAHaHa?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Mini Fan">
+      <h3>Mini Fan for PC / Mobile</h3>
+      <p class="price">10 dhs</p>
+      <p>USB/phone-powered mini fan.</p>
+      <button class="add-btn">Add to Cart</button>
+    </div>
+
+    <div class="card" data-id="4" data-name="Water Spray Pen" data-price="8" data-img="https://m.media-amazon.com/images/I/51Jn3Ou8CFL._AC_SX679_.jpg">
+      <img src="https://m.media-amazon.com/images/I/51Jn3Ou8CFL._AC_SX679_.jpg" alt="Water Spray Pen">
+      <h3>Water Spray Pen</h3>
+      <p class="price">8 dhs</p>
+      <p>Looks like a pen, sprays water.</p>
+      <button class="add-btn">Add to Cart</button>
+    </div>
+
+    <div class="card" data-id="5" data-name="Rubber Band Launcher" data-price="10" data-img="https://tse1.mm.bing.net/th/id/OIP.DmC0rO9Kp0Wr_63YH8QD5AHaHa?rs=1&pid=ImgDetMain&o=7&rm=3">
+      <img src="https://tse1.mm.bing.net/th/id/OIP.DmC0rO9Kp0Wr_63YH8QD5AHaHa?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Rubber Band Launcher">
+      <h3>Rubber Band Launcher</h3>
+      <p class="price">10 dhs</p>
+      <p>Fun rubber band launcher toy.</p>
+      <button class="add-btn">Add to Cart</button>
+    </div>
+
+    <div class="card" data-id="6" data-name="Laser Pointer with UV Light" data-price="5" data-img="https://tse3.mm.bing.net/th/id/OIP.EJmqZw26VWIuIJvK8P85IAHaHa?rs=1&pid=ImgDetMain&o=7&rm=3">
+      <img src="https://tse3.mm.bing.net/th/id/OIP.EJmqZw26VWIuIJvK8P85IAHaHa?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Laser Pointer with UV Light">
+      <h3>Laser Pointer with UV Light</h3>
+      <p class="price">5 dhs</p>
+      <p>Laser pointer + UV combo.</p>
+      <button class="add-btn">Add to Cart</button>
+    </div>
+
+    <div class="card" data-id="7" data-name="Hot Wheels Porsche (White)" data-price="6.25" data-img="https://tse1.mm.bing.net/th/id/OIP.7yaWtDeL7WEqM0I0DpTGmwHaHa?w=500&h=500&rs=1&pid=ImgDetMain&o=7&rm=3">
+      <img src="https://tse1.mm.bing.net/th/id/OIP.7yaWtDeL7WEqM0I0DpTGmwHaHa?w=500&h=500&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Hot Wheels Porsche White">
+      <h3>Hot Wheels Porsche (White)</h3>
+      <p class="price">6.25 dhs</p>
+      <p>White Porsche Hot Wheels collectible.</p>
+      <button class="add-btn">Add to Cart</button>
+    </div>
+
+    <div class="card" data-id="8" data-name="Captain America's Shield Fidget Spinner" data-price="20" data-img="https://tse2.mm.bing.net/th/id/OIP.E7Ot_pxCBArMNE6iBkSTMAHaHa?rs=1&pid=ImgDetMain&o=7&rm=3">
+      <img src="https://tse2.mm.bing.net/th/id/OIP.E7Ot_pxCBArMNE6iBkSTMAHaHa?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Captain America Fidget Spinner">
+      <h3>Captain America's Shield Fidget Spinner</h3>
+      <p class="price">20 dhs</p>
+      <p>Metal spinner with superhero design.</p>
+      <button class="add-btn">Add to Cart</button>
+    </div>
+
+    <div class="card" data-id="9" data-name="Pixel Art Glasses" data-price="12.75" data-img="https://wickedtender.com/cdn/shop/products/8-Bit-Thug-Life-Sunglasses---Funny-Meme-Glasses-for-Parties-and-Halloween-Wicked-Tender-1671990171_1800x1800.jpg?v=1671990173">
+      <img src="https://wickedtender.com/cdn/shop/products/8-Bit-Thug-Life-Sunglasses---Funny-Meme-Glasses-for-Parties-and-Halloween-Wicked-Tender-1671990171_1800x1800.jpg?v=1671990173" alt="Pixel Art Glasses">
+      <h3>Pixel Art Glasses</h3>
+      <p class="price">12.75 dhs</p>
+      <p>Retro pixel-style glasses.</p>
+      <button class="add-btn">Add to Cart</button>
+    </div>
+
+  </div>
+</main>
+
+<div id="toast">Added to cart</div>
+
+<script>
+  function getCart() {
+    return JSON.parse(localStorage.getItem("cart") || "[]");
+  }
+  function saveCart(cart) {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }
+  function updateCartCount() {
+    const cart = getCart();
+    const count = cart.reduce((sum, item) => sum + item.qty, 0);
+    const el = document.getElementById("cartCount");
+    if (el) el.textContent = count;
+  }
+  function showToast(msg) {
+    const toast = document.getElementById("toast");
+    toast.textContent = msg;
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 1500);
+  }
+
+  // Search
+  const searchBar = document.getElementById("searchBar");
+  const cards = document.querySelectorAll(".card");
+  searchBar.addEventListener("keyup", function () {
+    const text = searchBar.value.toLowerCase();
+    cards.forEach(card => {
+      const name = card.querySelector("h3").textContent.toLowerCase();
+      const desc = card.querySelectorAll("p")[1].textContent.toLowerCase();
+      card.style.display = (name.includes(text) || desc.includes(text)) ? "flex" : "none";
+    });
+  });
+
+  // Add to cart
+  document.querySelectorAll(".add-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const card = btn.closest(".card");
+      const id = card.getAttribute("data-id");
+      const name = card.getAttribute("data-name");
+      const price = parseFloat(card.getAttribute("data-price"));
+      const img = card.getAttribute("data-img");
+
+      let cart = getCart();
+      const existing = cart.find(item => item.id === id);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({ id, name, price, img, qty: 1 });
+      }
+      saveCart(cart);
+      updateCartCount();
+      showToast(name + " added to cart");
+    });
+  });
+
+  updateCartCount();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Checkout Form</title>
+  <style>
+    body { font-family: Arial; padding: 20px; background:#f9fafb; }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 10px 20px;
+      background: #111827;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Checkout Form</h2>
+<form action="https://formsubmit.co/contact.resellh@gmail.com" method="POST">
+  <input type="hidden" name="_captcha" value="false">
+  <input type="hidden" name="_template" value="table">
+
+  <label>Your Name</label>
+  <input type="text" name="name" required>
+
+  <label>Your Address</label>
+  <textarea name="address" required></textarea>
+
+  <label>Your Gmail</label>
+  <input type="text" name="phone" required>
+
+  <label>Notes</label>
+  <textarea name="notes"></textarea>
+
+  <button type="submit">Submit Order</button>
+</form>
+</body>
+</html>
